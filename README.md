@@ -3,7 +3,7 @@
 매일 3문장 영어 작문 연습 Progressive Web App
 
 ## 🌐 Live Demo
-https://english-practice-pwa.vercel.app (배포 후 URL)
+https://english-everyday.vercel.app (배포 후 URL)
 
 ## 기능
 
@@ -20,8 +20,8 @@ https://english-practice-pwa.vercel.app (배포 후 URL)
 
 1. 저장소 클론
 ```bash
-git clone https://github.com/elecsonJ/english-practice-pwa.git
-cd english-practice-pwa
+git clone https://github.com/elecsonJ/english-everyday.git
+cd english-everyday
 ```
 
 2. 의존성 설치
@@ -45,7 +45,7 @@ npm run dev
 ### 1단계: Vercel 가입 및 연결
 1. [Vercel](https://vercel.com) 가입 (GitHub 계정으로 로그인 가능)
 2. "Add New..." → "Project" 클릭
-3. GitHub 저장소 연결 및 `english-practice-pwa` 선택
+3. GitHub 저장소 연결 및 `english-everyday` 선택
 
 ### 2단계: 환경 변수 설정
 1. "Environment Variables" 섹션
