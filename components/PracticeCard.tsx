@@ -124,6 +124,11 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
 
       {feedback && (
         <div className="space-y-4 mt-4">
+          <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg">
+            <h4 className="font-semibold text-sm text-orange-600 mb-2">내가 입력한 문장</h4>
+            <p className="text-sm font-medium text-orange-800">{userInput}</p>
+          </div>
+
           <div className="bg-gray-50 p-4 rounded-lg">
             <h4 className="font-semibold text-sm text-gray-600 mb-2">1. 문법 체크</h4>
             <p className="text-sm">{feedback.grammarCheck}</p>
@@ -140,36 +145,41 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
           </div>
 
           <div className="border-t pt-4 space-y-4">
-            <h4 className="font-semibold text-sm mb-3">학습을 위해 아래 두 문장을 모두 입력해주세요:</h4>
+            <h4 className="font-semibold text-lg text-center text-gray-700 mb-4">📝 학습 단계</h4>
+            <p className="text-sm text-gray-600 text-center mb-4">위의 문장들을 참고하여 개선된 문장과 원어민 스타일을 입력해주세요</p>
             
-            <div>
-              <label className="block text-sm font-medium text-blue-600 mb-2">개선된 문장 입력:</label>
-              <input
-                type="text"
-                className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder={feedback.improvedVersion}
-                value={improvedInput}
-                onChange={(e) => setImprovedInput(e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-purple-600 mb-2">원어민 스타일 입력:</label>
-              <input
-                type="text"
-                className="w-full p-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder={feedback.nativeVersion}
-                value={nativeInput}
-                onChange={(e) => setNativeInput(e.target.value)}
-              />
+            <div className="grid gap-4">
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                <label className="block text-sm font-semibold text-blue-700 mb-2">📖 개선된 문장 입력:</label>
+                <input
+                  type="text"
+                  className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder={feedback.improvedVersion}
+                  value={improvedInput}
+                  onChange={(e) => setImprovedInput(e.target.value)}
+                />
+                <p className="text-xs text-blue-600 mt-1">위 &quot;2. 개선된 문장&quot;과 같게 입력하세요</p>
+              </div>
+              
+              <div className="bg-purple-50 border border-purple-200 p-4 rounded-lg">
+                <label className="block text-sm font-semibold text-purple-700 mb-2">🌟 원어민 스타일 입력:</label>
+                <input
+                  type="text"
+                  className="w-full p-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder={feedback.nativeVersion}
+                  value={nativeInput}
+                  onChange={(e) => setNativeInput(e.target.value)}
+                />
+                <p className="text-xs text-purple-600 mt-1">위 &quot;3. 원어민 스타일&quot;과 같게 입력하세요</p>
+              </div>
             </div>
             
             <button
               onClick={handleVerify}
               disabled={!improvedInput.trim() || !nativeInput.trim()}
-              className="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold"
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 px-6 rounded-lg hover:from-green-600 hover:to-emerald-600 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed font-bold text-lg shadow-lg transition-all"
             >
-              학습 완료하기
+              🎯 학습 완료하기
             </button>
           </div>
         </div>
