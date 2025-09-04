@@ -2,16 +2,22 @@
 
 import { useState } from 'react'
 
+interface Feedback {
+  grammarCheck: string;
+  improvedVersion: string;
+  nativeVersion: string;
+}
+
 interface PracticeCardProps {
   korean: string
   sentenceNumber: number
-  onComplete: (userInput: string, feedback: any) => void
+  onComplete: (userInput: string, feedback: Feedback) => void
   isCompleted: boolean
 }
 
 export default function PracticeCard({ korean, sentenceNumber, onComplete, isCompleted }: PracticeCardProps) {
   const [userInput, setUserInput] = useState('')
-  const [feedback, setFeedback] = useState<any>(null)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [verifyInput, setVerifyInput] = useState('')
   const [verifyStep, setVerifyStep] = useState(0)
@@ -37,6 +43,8 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
   }
 
   const handleVerify = () => {
+    if (!feedback) return
+    
     if (verifyStep === 0 && verifyInput.trim() === feedback.improvedVersion.trim()) {
       setVerifyStep(1)
       setVerifyInput('')

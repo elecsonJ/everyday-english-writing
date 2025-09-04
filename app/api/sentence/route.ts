@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
 const anthropic = new Anthropic({
@@ -18,7 +18,7 @@ const SENTENCE_TOPICS = [
   '음식/요리'
 ]
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const topic = SENTENCE_TOPICS[Math.floor(Math.random() * SENTENCE_TOPICS.length)]
     

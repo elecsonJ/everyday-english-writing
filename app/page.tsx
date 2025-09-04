@@ -71,7 +71,11 @@ export default function Home() {
     setIsLoading(false)
   }
 
-  const handleSentenceComplete = (index: number, userInput: string, feedback: any) => {
+  const handleSentenceComplete = (index: number, userInput: string, feedback: {
+    grammarCheck: string;
+    improvedVersion: string;
+    nativeVersion: string;
+  }) => {
     if (!session) return
 
     const newSession = { ...session }
