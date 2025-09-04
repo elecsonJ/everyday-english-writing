@@ -40,8 +40,26 @@ Respond in JSON format:
 
     const content = response.content[0]
     if (content.type === 'text') {
-      const feedback = JSON.parse(content.text)
-      return NextResponse.json(feedback)
+      let responseText = content.text.trim()
+      
+      // Remove markdown code block if present
+      if (responseText.startsWith('```json')) {
+        responseText = responseText.replace(/```json\n?/, '').replace(/\n?```$/, '')
+      }
+      
+      console.log('Claude response:', responseText)
+      
+      try {
+        const feedback = JSON.parse(responseText)
+        return NextResponse.json(feedback)
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError)
+        console.error('Response text:', responseText)
+        return NextResponse.json({ 
+          error: 'Failed to parse response',
+          details: responseText 
+        }, { status: 500 })
+      }
     }
 
     return NextResponse.json({ error: 'Invalid response format' }, { status: 500 })

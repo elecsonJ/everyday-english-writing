@@ -11,6 +11,7 @@ export default function Home() {
   const [streak, setStreak] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [session, setSession] = useState<PracticeSession | null>(null)
+  const [notificationPermission, setNotificationPermission] = useState<string>('default')
 
   useEffect(() => {
     initializeApp()
@@ -55,14 +56,18 @@ export default function Home() {
       setCompletedCount(todaySession.sentences.filter(s => s.feedback).length)
     }
 
-    // Request notification permission
-    await NotificationManager.requestPermission()
+    // Check notification permission
+    if ('Notification' in window) {
+      setNotificationPermission(Notification.permission)
+    }
     
-    // Register service worker and schedule notifications
+    // Register service worker
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.register('/sw.js')
-        registration.active?.postMessage({ type: 'SCHEDULE_NOTIFICATION' })
+        if (Notification.permission === 'granted') {
+          registration.active?.postMessage({ type: 'SCHEDULE_NOTIFICATION' })
+        }
       } catch (error) {
         console.error('Service Worker registration failed:', error)
       }
@@ -115,6 +120,25 @@ export default function Home() {
     LocalStorage.saveTodaySession(newSession)
     setSession(newSession)
     setCompletedCount(0)
+  }
+
+  const requestNotificationPermission = async () => {
+    const granted = await NotificationManager.requestPermission()
+    if (granted) {
+      setNotificationPermission('granted')
+      
+      // Schedule notifications after permission is granted
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.ready
+          registration.active?.postMessage({ type: 'SCHEDULE_NOTIFICATION' })
+        } catch (error) {
+          console.error('Service Worker scheduling failed:', error)
+        }
+      }
+    } else {
+      setNotificationPermission('denied')
+    }
   }
 
   if (isLoading) {
@@ -174,6 +198,43 @@ export default function Home() {
             >
               다시 연습하기
             </button>
+          </div>
+        )}
+
+        {/* Notification Permission */}
+        {notificationPermission === 'default' && (
+          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-blue-800">🔔 매일 오전 7시 알림</h3>
+                <p className="text-blue-600 text-sm mt-1">꾸준한 학습을 위해 알림을 허용해주세요</p>
+              </div>
+              <button
+                onClick={requestNotificationPermission}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 font-semibold"
+              >
+                알림 허용
+              </button>
+            </div>
+          </div>
+        )}
+
+        {notificationPermission === 'granted' && (
+          <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="flex items-center gap-2">
+              <span className="text-green-600">✅</span>
+              <span className="text-green-700 font-semibold">알림이 설정되었습니다!</span>
+              <span className="text-green-600 text-sm">매일 오전 7시에 알림을 받게됩니다.</span>
+            </div>
+          </div>
+        )}
+
+        {notificationPermission === 'denied' && (
+          <div className="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div className="text-amber-700">
+              <span className="font-semibold">⚠️ 알림이 차단되었습니다</span>
+              <p className="text-sm mt-1">브라우저 설정에서 알림을 허용해주세요</p>
+            </div>
           </div>
         )}
 
