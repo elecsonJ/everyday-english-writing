@@ -20,7 +20,7 @@ export interface UserProgress {
 }
 
 export class LocalStorage {
-  private static STORAGE_KEY = 'english-everyday-data'
+  private static STORAGE_KEY = 'everyday-english-writing-data'
 
   static getUserProgress(): UserProgress {
     if (typeof window === 'undefined') {
