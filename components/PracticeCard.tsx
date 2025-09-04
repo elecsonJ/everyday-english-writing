@@ -33,10 +33,32 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
         body: JSON.stringify({ korean, userInput })
       })
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
       const data = await response.json()
+      
+      console.log('API response:', data)
+      
+      // Check if response has error
+      if (data.error) {
+        console.error('API error:', data.error, data.details)
+        alert(`피드백 생성 중 오류가 발생했습니다: ${data.error}`)
+        return
+      }
+
+      // Validate response structure
+      if (!data.grammarCheck || !data.improvedVersion || !data.nativeVersion) {
+        console.error('Invalid response structure:', data)
+        alert('피드백 형식이 올바르지 않습니다. 다시 시도해주세요.')
+        return
+      }
+
       setFeedback(data)
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Network error:', error)
+      alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.')
     } finally {
       setIsLoading(false)
     }
