@@ -13,9 +13,13 @@ interface PracticeCardProps {
   sentenceNumber: number
   onComplete: (userInput: string, feedback: Feedback) => void
   isCompleted: boolean
+  completedData?: {
+    userInput: string
+    feedback: Feedback
+  }
 }
 
-export default function PracticeCard({ korean, sentenceNumber, onComplete, isCompleted }: PracticeCardProps) {
+export default function PracticeCard({ korean, sentenceNumber, onComplete, isCompleted, completedData }: PracticeCardProps) {
   const [userInput, setUserInput] = useState('')
   const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -84,14 +88,36 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
     }
   }
 
-  if (isCompleted) {
+  if (isCompleted && completedData) {
     return (
-      <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-4">
+      <div className="bg-gray-50 border border-gray-300 rounded-lg p-6 mb-4 opacity-75">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-semibold text-green-700">문장 {sentenceNumber} ✓</h3>
+          <h3 className="text-lg font-semibold text-gray-600">문장 {sentenceNumber} ✓</h3>
+          <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">완료</span>
         </div>
-        <p className="text-gray-600">{korean}</p>
-        <p className="text-sm text-green-600 mt-2">완료됨</p>
+        <p className="text-gray-700 mb-4">{korean}</p>
+
+        <div className="space-y-3">
+          <div className="bg-orange-100 border border-orange-200 p-3 rounded-lg">
+            <h4 className="font-semibold text-xs text-orange-600 mb-1">내가 입력한 문장</h4>
+            <p className="text-sm text-orange-800">{completedData.userInput}</p>
+          </div>
+
+          <div className="bg-gray-100 p-3 rounded-lg">
+            <h4 className="font-semibold text-xs text-gray-600 mb-1">문법 체크</h4>
+            <p className="text-xs text-gray-700">{completedData.feedback.grammarCheck}</p>
+          </div>
+
+          <div className="bg-blue-100 p-3 rounded-lg">
+            <h4 className="font-semibold text-xs text-blue-600 mb-1">개선된 문장</h4>
+            <p className="text-sm text-blue-800">{completedData.feedback.improvedVersion}</p>
+          </div>
+
+          <div className="bg-purple-100 p-3 rounded-lg">
+            <h4 className="font-semibold text-xs text-purple-600 mb-1">원어민 스타일</h4>
+            <p className="text-sm text-purple-800">{completedData.feedback.nativeVersion}</p>
+          </div>
+        </div>
       </div>
     )
   }

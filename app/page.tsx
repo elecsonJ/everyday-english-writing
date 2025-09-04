@@ -182,6 +182,10 @@ export default function Home() {
               sentenceNumber={index + 1}
               onComplete={(userInput, feedback) => handleSentenceComplete(index, userInput, feedback)}
               isCompleted={!!session?.sentences[index]?.feedback}
+              completedData={session?.sentences[index]?.feedback ? {
+                userInput: session.sentences[index].userInput,
+                feedback: session.sentences[index].feedback!
+              } : undefined}
             />
           ))}
         </div>
