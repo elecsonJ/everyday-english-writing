@@ -19,8 +19,8 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
   const [userInput, setUserInput] = useState('')
   const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [verifyInput, setVerifyInput] = useState('')
-  const [verifyStep, setVerifyStep] = useState(0)
+  const [improvedInput, setImprovedInput] = useState('')
+  const [nativeInput, setNativeInput] = useState('')
 
   const handleSubmit = async () => {
     if (!userInput.trim()) return
@@ -67,11 +67,20 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
   const handleVerify = () => {
     if (!feedback) return
     
-    if (verifyStep === 0 && verifyInput.trim() === feedback.improvedVersion.trim()) {
-      setVerifyStep(1)
-      setVerifyInput('')
-    } else if (verifyStep === 1 && verifyInput.trim() === feedback.nativeVersion.trim()) {
+    const improvedMatch = improvedInput.trim().toLowerCase() === feedback.improvedVersion.trim().toLowerCase()
+    const nativeMatch = nativeInput.trim().toLowerCase() === feedback.nativeVersion.trim().toLowerCase()
+    
+    if (improvedMatch && nativeMatch) {
       onComplete(userInput, feedback)
+    } else {
+      let errorMessage = '입력이 정확하지 않습니다:\n'
+      if (!improvedMatch) {
+        errorMessage += `• 개선된 문장: "${feedback.improvedVersion}"\n`
+      }
+      if (!nativeMatch) {
+        errorMessage += `• 원어민 스타일: "${feedback.nativeVersion}"\n`
+      }
+      alert(errorMessage)
     }
   }
 
@@ -130,22 +139,37 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
             <p className="text-sm font-medium">{feedback.nativeVersion}</p>
           </div>
 
-          <div className="border-t pt-4">
-            <h4 className="font-semibold text-sm mb-3">
-              {verifyStep === 0 ? '개선된 문장을 입력해주세요:' : '원어민 스타일 문장을 입력해주세요:'}
-            </h4>
-            <input
-              type="text"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
-              placeholder={verifyStep === 0 ? feedback.improvedVersion : feedback.nativeVersion}
-              value={verifyInput}
-              onChange={(e) => setVerifyInput(e.target.value)}
-            />
+          <div className="border-t pt-4 space-y-4">
+            <h4 className="font-semibold text-sm mb-3">학습을 위해 아래 두 문장을 모두 입력해주세요:</h4>
+            
+            <div>
+              <label className="block text-sm font-medium text-blue-600 mb-2">개선된 문장 입력:</label>
+              <input
+                type="text"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={feedback.improvedVersion}
+                value={improvedInput}
+                onChange={(e) => setImprovedInput(e.target.value)}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-purple-600 mb-2">원어민 스타일 입력:</label>
+              <input
+                type="text"
+                className="w-full p-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder={feedback.nativeVersion}
+                value={nativeInput}
+                onChange={(e) => setNativeInput(e.target.value)}
+              />
+            </div>
+            
             <button
               onClick={handleVerify}
-              className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+              disabled={!improvedInput.trim() || !nativeInput.trim()}
+              className="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold"
             >
-              확인하기
+              학습 완료하기
             </button>
           </div>
         </div>
