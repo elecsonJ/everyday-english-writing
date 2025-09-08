@@ -28,8 +28,8 @@ export default function Home() {
     // Get or create today's session
     let todaySession = LocalStorage.getTodaySession()
     
-    if (!todaySession) {
-      // Fetch new sentences for today
+    if (!todaySession || todaySession.completed) {
+      // Fetch new sentences for today (either no session or previous session completed)
       try {
         const response = await fetch('/api/sentence')
         const data = await response.json()
