@@ -177,26 +177,34 @@ export default function PracticeCard({ korean, sentenceNumber, onComplete, isCom
             <div className="grid gap-4">
               <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
                 <label className="block text-sm font-semibold text-blue-700 mb-2">📖 개선된 문장 입력:</label>
+                <div className="bg-blue-100 border border-blue-300 p-2 rounded mb-2">
+                  <p className="text-xs text-blue-600 font-medium">참고:</p>
+                  <p className="text-sm text-blue-800 font-medium">{feedback.improvedVersion}</p>
+                </div>
                 <input
                   type="text"
                   className="w-full p-3 border border-blue-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder={feedback.improvedVersion}
+                  placeholder="위 참고 문장을 정확히 입력하세요"
                   value={improvedInput}
                   onChange={(e) => setImprovedInput(e.target.value)}
                 />
-                <p className="text-xs text-blue-600 mt-1">위 &quot;2. 개선된 문장&quot;과 같게 입력하세요</p>
+                <p className="text-xs text-blue-600 mt-1">참고 문장과 정확히 같게 입력하세요</p>
               </div>
               
               <div className="bg-purple-50 border border-purple-200 p-4 rounded-lg">
                 <label className="block text-sm font-semibold text-purple-700 mb-2">🌟 원어민 스타일 입력:</label>
+                <div className="bg-purple-100 border border-purple-300 p-2 rounded mb-2">
+                  <p className="text-xs text-purple-600 font-medium">참고:</p>
+                  <p className="text-sm text-purple-800 font-medium">{feedback.nativeVersion}</p>
+                </div>
                 <input
                   type="text"
                   className="w-full p-3 border border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder={feedback.nativeVersion}
+                  placeholder="위 참고 문장을 정확히 입력하세요"
                   value={nativeInput}
                   onChange={(e) => setNativeInput(e.target.value)}
                 />
-                <p className="text-xs text-purple-600 mt-1">위 &quot;3. 원어민 스타일&quot;과 같게 입력하세요</p>
+                <p className="text-xs text-purple-600 mt-1">참고 문장과 정확히 같게 입력하세요</p>
               </div>
             </div>
             
