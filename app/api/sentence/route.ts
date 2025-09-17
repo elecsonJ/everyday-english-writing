@@ -15,29 +15,42 @@ const SENTENCE_TOPICS = [
   '과거 경험',
   '가족/친구',
   '취미',
-  '음식/요리'
+  '음식/요리',
+  '쇼핑/소비',
+  '건강/의료',
+  '날씨/계절',
+  '약속/만남',
+  '공부/학습',
+  '스마트폰/기술',
+  '영화/드라마',
+  '운동/헬스',
+  '갈등/문제해결',
+  '습관/루틴'
 ]
 
 export async function GET() {
   try {
     const topic = SENTENCE_TOPICS[Math.floor(Math.random() * SENTENCE_TOPICS.length)]
     
-    const prompt = `Generate 3 Korean sentences for English writing practice.
+    const prompt = `Generate 5 Korean sentences for English writing practice.
 Topic: ${topic}
 Level: Intermediate
 
 Requirements:
 - Sentences should be practical and commonly used in daily life
-- Each sentence should be different in structure (statement, question, suggestion, etc.)
+- Each sentence should be different in structure (statement, question, suggestion, request, exclamation, etc.)
 - Length: 10-20 Korean words per sentence
-- Include various grammar patterns
+- Include various grammar patterns and tenses
+- Cover different situations within the topic
 
 Respond in JSON format:
 {
   "sentences": [
     "Korean sentence 1",
     "Korean sentence 2", 
-    "Korean sentence 3"
+    "Korean sentence 3",
+    "Korean sentence 4",
+    "Korean sentence 5"
   ]
 }`
 

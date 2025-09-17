@@ -79,7 +79,7 @@ export class LocalStorage {
       }
 
       progress.lastCompletedDate = today
-      progress.totalSentences += 3
+      progress.totalSentences += 5
     }
 
     this.saveUserProgress(progress)

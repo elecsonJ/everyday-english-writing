@@ -93,7 +93,7 @@ export default function Home() {
     const newCompletedCount = newSession.sentences.filter(s => s.feedback).length
     setCompletedCount(newCompletedCount)
 
-    if (newCompletedCount === 3) {
+    if (newCompletedCount === 5) {
       newSession.completed = true
       LocalStorage.saveTodaySession(newSession)
       const progress = LocalStorage.getUserProgress()
@@ -159,14 +159,14 @@ export default function Home() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">영어 작문 연습</h1>
           <div className="flex items-center justify-between">
-            <p className="text-gray-600">매일 3문장 작문하기</p>
+            <p className="text-gray-600">매일 5문장 작문하기</p>
             <div className="flex items-center gap-4">
               <div className="text-center">
                 <p className="text-2xl font-bold text-blue-500">{streak}</p>
                 <p className="text-xs text-gray-500">연속일수</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-green-500">{completedCount}/3</p>
+                <p className="text-2xl font-bold text-green-500">{completedCount}/5</p>
                 <p className="text-xs text-gray-500">오늘 완료</p>
               </div>
             </div>
@@ -191,7 +191,7 @@ export default function Home() {
         </div>
 
         {/* Completion Message */}
-        {completedCount === 3 && (
+        {completedCount === 5 && (
           <div className="mt-6 bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-lg p-6 text-center">
             <h2 className="text-2xl font-bold mb-2">🎉 축하합니다!</h2>
             <p>오늘의 작문을 모두 완료했습니다!</p>
